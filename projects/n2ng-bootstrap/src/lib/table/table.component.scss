@@ -1,0 +1,37 @@
+.sortable {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+
+  table {
+    margin-top: 0.5rem;
+  }
+
+	thead tr {
+    display: none;
+	}
+
+  tbody {
+    tr {
+      display: flex;
+      flex-direction: column;
+
+      border: 1px solid #ccc;
+      margin-bottom: 0.5rem;
+    }
+
+    td {
+      border: none;
+
+      display: grid;
+      grid-template-columns: 30% 70%;
+
+      &:before {
+        content: attr(data-label);
+        font-weight: bold;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,36 @@
+
+.step {
+  position: relative;
+  margin-bottom: 1rem;
+
+  .circle {
+    color: white;
+    border-radius: 50%;
+    background-color: lightgray;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  &.active {
+    .circle {
+      background-color: blue;
+    }
+  }
+
+
+  &:not(.last):before {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    border-left-width: 1px;
+    border-left-style: solid;
+    top: 1.5rem;
+    bottom: -1rem;
+    border-left-color: lightgray;
+  }
+
+  .content {
+    margin-left: 2.5rem;
+
+  }
+}

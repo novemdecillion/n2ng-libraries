@@ -1,0 +1,15 @@
+
+<div class="step" [class.first]="no == 1"  [class.last]="isLast"  [class.active]="isActive">
+  <div class="header mb-2 d-flex">
+    <div class="circle text-center me-3">{{ no }}</div>
+    <ng-container *ngTemplateOutlet="header?.template || defaultHeader"></ng-container>
+  </div>
+
+  <div class="content" [ngbCollapse]="!isActive">
+    <ng-content></ng-content>
+  </div>
+</div>
+
+<ng-template #defaultHeader>
+  {{ label }}
+</ng-template>

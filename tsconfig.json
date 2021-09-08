@@ -11,6 +11,12 @@
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
+    "paths": {
+      "n2ng-bootstrap": [
+        "dist/n2ng-bootstrap/n2ng-bootstrap",
+        "dist/n2ng-bootstrap"
+      ]
+    },
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,

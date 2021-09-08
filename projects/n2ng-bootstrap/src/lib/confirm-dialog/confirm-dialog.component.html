@@ -1,0 +1,21 @@
+<div class="modal-header" *ngIf="title">
+  <h4 class="modal-title">{{ title }}</h4>
+</div>
+<div class="modal-body">
+  <ng-container *ngTemplateOutlet="contentTemplateRef || defaultContent"></ng-container>
+</div>
+<div class="modal-footer" *ngIf="onlyOk; else okCancel">
+  <button type="button" class="btn btn-primary" (click)="activeModal.close('ok')">確認</button>
+</div>
+
+<ng-template #okCancel>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="activeModal.close('ok')">OK</button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss('cancel')">キャンセル</button>
+  </div>
+</ng-template>
+
+<ng-template #defaultContent>
+  {{ message }}
+</ng-template>
+
