@@ -57,6 +57,7 @@ const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 
 })
 export class N2ngTableComponent<Record extends { [key: string]: any }> implements AfterContentInit, OnInit, OnDestroy {
   @Input() enableFilter = true;
+  @Input() maxPaginationSize = 5;
   @Input() defaultPageSize = 20;
   @Input() pageSizeOptions = [20, 50, 100];
   @Input() enablePagination = true;

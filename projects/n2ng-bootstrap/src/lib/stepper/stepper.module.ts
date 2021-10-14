@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { N2ngStepComponent, N2ngStepHeaderDirective } from './step.component';
@@ -16,6 +17,7 @@ const DECLARATIONS = [
     ...DECLARATIONS
   ],
   imports: [
+    CommonModule,
     NgbCollapseModule
   ],
   exports: [

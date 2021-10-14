@@ -3,7 +3,7 @@ import { N2ngStepComponent } from './step.component';
 
 
 @Directive({
-  selector: 'button[n2ngbNextStep]',
+  selector: 'button[n2ngNextStep]',
   host: {
     '[type]': 'type',
   }
@@ -20,7 +20,7 @@ export class N2ngNextStep {
 }
 
 @Directive({
-  selector: 'button[n2ngbPrevStep]',
+  selector: 'button[n2ngPrevStep]',
   host: {
     '[type]': 'type',
   }
@@ -38,7 +38,7 @@ export class N2ngPrevStep {
 
 
 @Component({
-  selector: 'n2ngb-stepper',
+  selector: 'n2ng-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: [ './stepper.component.scss' ]
 })

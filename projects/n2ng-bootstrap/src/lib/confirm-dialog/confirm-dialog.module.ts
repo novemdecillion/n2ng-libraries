@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +13,7 @@ const DECLARATIONS = [
     ...DECLARATIONS
   ],
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     NgbModalModule
   ],

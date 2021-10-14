@@ -27,12 +27,13 @@ export class N2ngConfirmDialogComponent implements ConfirmDialogParam {
 
   static openModal(modalService: NgbModal, param: ConfirmDialogParam): NgbModalRef {
     const modalRef= modalService.open(N2ngConfirmDialogComponent);
-    modalRef.componentInstance.message = param.message;
-    modalRef.componentInstance.title = param.title;
-    modalRef.componentInstance.contentTemplateRef = param.contentTemplateRef;
-    if (param.onlyOk) {
-      modalRef.componentInstance.onlyOk = param.onlyOk;
-    }
+
+    let instance = <N2ngConfirmDialogComponent>modalRef.componentInstance
+    instance.message = param.message;
+    instance.title = param.title;
+    instance.contentTemplateRef = param.contentTemplateRef;
+    instance.onlyOk = param.onlyOk ?? true;
+
     return modalRef;
   }
 }
