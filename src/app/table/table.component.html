@@ -1,3 +1,34 @@
 <n2ng-table [dataLoad]="dataSource">
-  <n2ng-table-column name="name" label="氏名" headerClass="fix-column-width"></n2ng-table-column>
+  <n2ng-table-column name="name" label="直接表示" headerClass="fix-column-width">
+  </n2ng-table-column>
+
+  <n2ng-table-column name="value" label="直接表示" headerClass="fix-column-width">
+  </n2ng-table-column>
+
+  <n2ng-table-column name="temp1" label="テンプレート表示" class="text-break">
+    <ng-template n2ng-table-cell let-row="row">
+      {{ row.name }}
+    </ng-template>
+  </n2ng-table-column>
+  <n2ng-table-column name="temp2" label="テンプレート表示" class="text-break">
+    <ng-template n2ng-table-cell let-row="row">
+      {{ row.name }}
+    </ng-template>
+  </n2ng-table-column>
+  <n2ng-table-column name="temp3" label="テンプレート表示" class="text-break">
+    <ng-template n2ng-table-cell let-row="row">
+      {{ row.name }}
+    </ng-template>
+  </n2ng-table-column>
+  <n2ng-table-column name="temp4" label="テンプレート表示" class="text-break">
+    <ng-template n2ng-table-cell let-row="row">
+      {{ row.name }}
+    </ng-template>
+  </n2ng-table-column>
+  <n2ng-table-column name="temp5" label="テンプレート表示" class="text-break">
+    <ng-template n2ng-table-cell let-row="row">
+      {{ row.name }}
+    </ng-template>
+  </n2ng-table-column>
+
 </n2ng-table>

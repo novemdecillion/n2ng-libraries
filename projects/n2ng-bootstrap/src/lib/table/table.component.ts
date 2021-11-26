@@ -31,6 +31,8 @@ export class N2ngTableColumnComponent<Record extends { [key: string]: any }> imp
 
   @Input() sortable: boolean = true;
 
+  @Input() class: string = '';
+
   @Input() headerClass: string = '';
 
   @ContentChild(N2ngTableCellDirective) cell?: N2ngTableCellDirective;
@@ -62,6 +64,7 @@ export class N2ngTableComponent<Record extends { [key: string]: any }> implement
   @Input() pageSizeOptions = [20, 50, 100];
   @Input() enablePagination = true;
   @Input() enablePageSize = true;
+  @Input() class: string = '';
 
   @ContentChildren(N2ngTableColumnComponent) columnDefs?: QueryList<N2ngTableColumnComponent<Record>>;
 
@@ -171,9 +174,22 @@ export class N2ngTableComponent<Record extends { [key: string]: any }> implement
   updateRenderingData() {
     const factor = (this.sortDirection == 'desc') ? -1: ((this.sortDirection == 'asc')? 1: 0);
 
-    let processed = this.dataSource ?? [];
+    let processed = [...this.dataSource] ?? [];
     if ((this.sortField !== undefined) && (factor != 0)) {
-      processed = processed.sort((a: any, b: any) => (a[this.sortField!] < b[this.sortField!])? -factor : factor)
+      processed = processed
+        .sort((a: any, b: any) => {
+          let aValue = a[this.sortField!];
+          let bValue = b[this.sortField!];
+          if (aValue == bValue) {
+            return 0;
+          } else if (aValue === null) {
+            return -factor;
+          } else if (bValue === null) {
+            return factor;
+          } else {
+            return aValue < bValue? -factor : factor
+          }
+        });
     }
     if (0 < this.filterControl?.value?.length) {
       processed = processed.filter(d => this.filterPredicate(d, this.filterControl?.value));
@@ -196,9 +212,13 @@ export class N2ngTableComponent<Record extends { [key: string]: any }> implement
         this.sortDirection = 'asc';
       } else {
         this.sortDirection = rotate[this.sortDirection]
-
       }
-      this.sortField = column.name
+      if (this.sortDirection.length == 0) {
+        this.sortField = undefined
+      } else {
+        this.sortField = column.name
+      }
+
       this.updateRenderingData();
     }
   }

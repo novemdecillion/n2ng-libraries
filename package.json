@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:n2ng-bootstrap": "ng build --project n2ng-bootstrap",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

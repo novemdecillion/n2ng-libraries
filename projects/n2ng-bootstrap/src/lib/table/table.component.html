@@ -4,24 +4,22 @@
   <input class="form-control" type="text" [formControl]="filterControl" placeholder="検索" />
 </div>
 
-<table class="table table-striped text-nowrap">
+<table class="table table-striped" [ngClass]="class">
 
   <thead>
     <tr>
       <th scope="col" *ngFor="let column of columnDefs" (click)="onSort(column)" [class.sortable]="column.sortable" [className]="column.headerClass">
-        <div class="d-flex justify-content-between" >
-          <ng-container *ngTemplateOutlet="column.headerCell?.template || defaultHeaderTextCell; context:{column: column}">
-          </ng-container>
+        <ng-container *ngTemplateOutlet="column.headerCell?.template || defaultHeaderTextCell; context:{column: column}"></ng-container>
 
-          <i *ngIf="column.name == sortField" class="bi" [class.bi-arrow-up-short]="sortDirection == 'desc'" [class.bi-arrow-down-short]="sortDirection == 'asc'"></i>
-        </div>
+        <i *ngIf="column.name == sortField" class="bi ms-1" [class.bi-sort-up]="sortDirection == 'desc'" [class.bi-sort-down-alt]="sortDirection == 'asc'"></i>
+        <i *ngIf="(column.name != sortField) && column.sortable" class="bi bi-arrows-expand ms-1"></i>
       </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let row of renderingData">
 
-      <td [attr.data-label]="column.label" *ngFor="let column of columnDefs">
+      <td [attr.data-label]="column.label" *ngFor="let column of columnDefs" [className]="column.class">
         <ng-container *ngTemplateOutlet="column.cell?.template || defaultTextCell; context:{row: row}; context:{column: column, row: row}">
         </ng-container>
       </td>
