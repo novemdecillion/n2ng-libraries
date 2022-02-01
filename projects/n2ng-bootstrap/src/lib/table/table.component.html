@@ -32,15 +32,18 @@
   <ngb-pagination [collectionSize]="filteredCount" [(page)]="page" [pageSize]="pageSize" [maxSize]="maxPaginationSize" (pageChange)="onPageChange($event)">
   </ngb-pagination>
 
-  <div class="d-flex align-items-start">
-    <span class="mt-1 me-1">{{ filteredCount }} 件中 の</span>
-
-    <select class="form-select" style="width: auto; height: 38px;" [formControl]="pageSizeControl" *ngIf="enablePageSize">
-      <option [ngValue]="20">20件</option>
-      <option [ngValue]="50">50件</option>
-      <option [ngValue]="100">100件</option>
-    </select>
+  <div *ngIf="enablePageSize">
+    <div class="input-group">
+      <span class="input-group-text">1ページ</span>
+      <select class="form-select" style="width: auto; height: 38px;" [formControl]="pageSizeControl">
+        <option [ngValue]="20">20件</option>
+        <option [ngValue]="50">50件</option>
+        <option [ngValue]="100">100件</option>
+      </select>
+    </div>
   </div>
+
+  <span class="mt-1 me-1">全 {{ filteredCount }} 件</span>
 </div>
 
 <ng-template #defaultHeaderTextCell let-column="column">
