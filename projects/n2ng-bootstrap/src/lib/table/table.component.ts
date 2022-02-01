@@ -174,7 +174,8 @@ export class N2ngTableComponent<Record extends { [key: string]: any }> implement
   updateRenderingData() {
     const factor = (this.sortDirection == 'desc') ? -1: ((this.sortDirection == 'asc')? 1: 0);
 
-    let processed = [...this.dataSource] ?? [];
+    let processed: any[] = (Array.isArray(this.dataSource)) ? [...this.dataSource] : [];
+
     if ((this.sortField !== undefined) && (factor != 0)) {
       processed = processed
         .sort((a: any, b: any) => {
