@@ -29,7 +29,7 @@ export class N2ngTableColumnComponent<Record extends { [key: string]: any }> imp
 
   @Input() dataAccessor?: ((column: N2ngTableColumnComponent<Record>, data: Record) => string);
 
-  @Input() sortable: boolean = true;
+  @Input() sortable: (boolean | ((data: any[], sortDirection: SortDirection, sortField: string) => any[])) = n2ngTableSort;
 
   @Input() class: string = '';
 
@@ -51,6 +51,24 @@ export class N2ngTableColumnComponent<Record extends { [key: string]: any }> imp
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
 
+export function n2ngTableSort(data: any[], sortDirection: SortDirection, sortField: string): any[] {
+  const factor = (sortDirection == 'desc') ? -1: ((sortDirection == 'asc')? 1: 0);
+
+  return data
+    .sort((a: any, b: any) => {
+      let aValue = a[sortField!];
+      let bValue = b[sortField!];
+      if (aValue == bValue) {
+        return 0;
+      } else if (aValue === null) {
+        return -factor;
+      } else if (bValue === null) {
+        return factor;
+      } else {
+        return aValue < bValue? -factor : factor
+      }
+    });
+}
 
 @Component({
   selector: 'n2ng-table',
@@ -76,7 +94,8 @@ export class N2ngTableComponent<Record extends { [key: string]: any }> implement
 
   page = 1;
   filteredCount = 1;
-  sortField?: string
+  sortField?: string;
+  sortFunction: (data: any[], sortDirection: SortDirection, sortField: string) => any[] = n2ngTableSort;
   sortDirection: SortDirection = '';
 
   @ViewChild(NgbPagination, { static: true }) paginator!: NgbPagination;
@@ -172,25 +191,12 @@ export class N2ngTableComponent<Record extends { [key: string]: any }> implement
   }
 
   updateRenderingData() {
-    const factor = (this.sortDirection == 'desc') ? -1: ((this.sortDirection == 'asc')? 1: 0);
+    let processed: any[] = (Array.isArray(this.dataSource)) ? [...this.dataSource] : [];
 
-    let processed = [...this.dataSource] ?? [];
-    if ((this.sortField !== undefined) && (factor != 0)) {
-      processed = processed
-        .sort((a: any, b: any) => {
-          let aValue = a[this.sortField!];
-          let bValue = b[this.sortField!];
-          if (aValue == bValue) {
-            return 0;
-          } else if (aValue === null) {
-            return -factor;
-          } else if (bValue === null) {
-            return factor;
-          } else {
-            return aValue < bValue? -factor : factor
-          }
-        });
+    if ((this.sortField !== undefined) && (this.sortDirection !== '')) {
+      processed = this.sortFunction(processed, this.sortDirection, this.sortField);
     }
+
     if (0 < this.filterControl?.value?.length) {
       processed = processed.filter(d => this.filterPredicate(d, this.filterControl?.value));
     }
@@ -200,14 +206,13 @@ export class N2ngTableComponent<Record extends { [key: string]: any }> implement
     this.renderingData = processed.slice((this.page - 1) * this.pageSize, this.page * this.pageSize);
   }
 
-
   onPageChange(page: number) {
     this.page = page;
     this.updateRenderingData();
   }
 
   onSort(column: N2ngTableColumnComponent<Record>) {
-    if (column.sortable) {
+    if (column.sortable !== false) {
       if (this.sortField !== column.name) {
         this.sortDirection = 'asc';
       } else {
@@ -216,7 +221,13 @@ export class N2ngTableComponent<Record extends { [key: string]: any }> implement
       if (this.sortDirection.length == 0) {
         this.sortField = undefined
       } else {
-        this.sortField = column.name
+        this.sortField = column.name;
+
+        if (typeof column.sortable == 'function') {
+          this.sortFunction = column.sortable;
+        } else {
+          this.sortFunction = n2ngTableSort;
+        }
       }
 
       this.updateRenderingData();
